@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "==8.1.3"
+colorama = "==0.4.5"
+flask = "==2.2.2"
+itsdangerous = "==2.1.2"
+jinja2 = "==3.1.2"
+markupsafe = "==2.1.1"
+werkzeug = "==2.2.2"
+alembic = "*"
+flask-cors = "*"
+greenlet = "*"
+mako = "*"
+marshmallow = "*"
+packaging = "*"
+psycopg2-binary = "*"
+requests = "*"
+flask-login = "*"
+jwt = "*"
+flask-httpauth = "*"
+pdfplumber = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

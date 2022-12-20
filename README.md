@@ -29,6 +29,10 @@ El usuario puede:
 ## Instalación
 
 ### Tecnologias
+- [Python (>=3.10)](https://www.python.org/downloads/)
+-- [Pipenv](https://pypi.org/project/pipenv/)
+-- [Flask](https://pypi.org/project/Flask/)
+-- Otras dependencias son descritas en el archivo de [requerimientos](/Pipfile)
 
 ## Politica sobre las ramas
 
@@ -39,9 +43,10 @@ Este proyecto se halla licenciado bajo la **[GNU General Public License v3](/LIC
 ## Acerca de
 
 ### ACMUD
+El Capitulo Estudiantil de la *Association for Computing Machine ([ACM](https://www.acm.org/))*, de la Universidad Distrital Francisca José de Caldas es una agrupación estudiantil con reconocimiento nacional e internacional que se dedica a la promoción de conocimientos de ingeniería. El grupo cuenta con ejes de interes y un laboratorio de proyectos en los cuales participan diferentes estudiantes. El Proyecto AION empezó su desarrollo dentro del laboratorio de proyectos de ACMUD y recibe colaboración de multiples personas.
+
+### [Proyecto original (Kairos)](https://www.facebook.com/KairosUN)
+El Proyecto Kairos de la Universidad Nacional de Colombia (actualmente desamparado) era utilizado por estudiantes de la Universidad Nacional de Colombia y la Universidad Distrital Francisco José de Caldas para organizar sus horarios. El proyecto paró sus actualizaciones en febrero de 2020. El Proyecto AION se desarrolló con la premisa de ser el Proyecto Kairos alojado en la red y con una estructura abierta para incluir más universidades.
 
 ### Alta Lengua
-
-AION (backend) es un proyecto web que almacena horarios de diferentes universidades y permite trabajarlos como datos filtrables y organizables (a través de respuestas JSON) para generar un horario filtrado construido por el usuario o por una 
-
-AION (backend) es un proyecto de ACMUD creado para ser una version alojada web del proyecto Kairos de la universidad Nacional de 
+El Grupo Alta Lengua funge como colaborador del Proyecto AION.
