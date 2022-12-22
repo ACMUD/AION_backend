@@ -1,0 +1,4 @@
+cd ..
+py -m pipenv shell
+set FLASK_APP=./src/index.py
+py -m flask run -h 0.0.0.0
