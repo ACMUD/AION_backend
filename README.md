@@ -40,7 +40,7 @@ Para descargar el repositorio dispone de varios metodos (clonacion, descarga o s
 
 ### Instalar el entorno de trabajo y las dependencias
 Cree un entorno de trabajo con Pipenv ejecutando `py -m pipenv --three` y luego instale las dependencias del repositorio en el entorno ejecutando `py -m pipenv install`. A continuación un gif mostrando lo escrito.
-![GIF Mostrando la clonacion](/guides/AION_tutorial-InstalacionInstalar.gif)
+![GIF Mostrando la clonacion](/guides/AION_tutorial-InstalacaionInstalar.gif)
 
 ### Configurando el aplicativo
 Para poder ejecutar el aplicativo debe suministrar una URI de base de datos valida (puede ser una URI alojada en la red, en su computador con un motor de bases de datos o [en un archivo plano](https://stackoverflow.com/posts/56417062/revisions)). Para suministrar la URI debera disponer de la base de datos creada y crean un archivo JSON en [src/config](/src/config) con la forma {"host": string, "puerto": integer, "nombre_bd": string, "usuario": string, "clave": string, "motor": string}.
@@ -49,17 +49,19 @@ Para evitar errores, puede generar el archivo ejecutando los comandos ´cd src/c
 
 ### Resumen
 La instalación rapida consiste en crear un directorio, abrir la Consola de Comandos en el directorio y ejecutar:
- git init
- git pull https://github.com/ACMUD/AION_backend main
- py -m pipenv --three
- py -m pipenv install
- cd src/config
- py
- from db import constructor_uri
- constructor_uri()
- exit()
- cd ../..
- 
+```
+git init
+git pull https://github.com/ACMUD/AION_backend main
+py -m pipenv --three
+py -m pipenv install
+cd src/config
+py
+from db import constructor_uri
+constructor_uri()
+exit()
+cd ../..
+
+```
 
 ## Ejecucion
 Asumiendo que se han seguido los pasos de la instalación.
@@ -80,9 +82,9 @@ Para realizar una prueba del aplicativo puede dirigirse en el navegador a la dir
 
 ### Tecnologias
 - [Python (>=3.10)](https://www.python.org/downloads/)
- - [Pipenv](https://pypi.org/project/pipenv/)
- - [Flask](https://pypi.org/project/Flask/)
- - Otras dependencias son descritas en el archivo de [requerimientos](/requirements.txt)
+  - [Pipenv](https://pypi.org/project/pipenv/)
+  - [Flask](https://pypi.org/project/Flask/)
+  - Otras dependencias son descritas en el archivo de [requerimientos](/requirements.txt)
 
 ## Politica sobre las ramas
 
