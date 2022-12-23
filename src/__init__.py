@@ -16,19 +16,21 @@ aplicativos web (index) y principal (main).
 
 Las funcionalidades se encuentran en paquetes con planos de
 aplicacion. Cada paquete cuenta con al menos una cabecera que
-inicializa el plano del paquete, un archivo de rutas (routes)
-que registran el acceso a la funcionalidad del plano y usualmente
-un modulo de servicios del paquete.
+inicializa el plano del paquete, un archivo de rutas (routes) que
+registran el acceso a la funcionalidad del plano y usualmente un
+modulo de servicios del paquete.
 
 
     Modulo: Cabecera del paquete SRC
 
-Este archivo se ejecuta antes que todos los archivos e
-informa a python que el backend tiene arquitectura de paquete.
+Este modulo se ejecuta antes que todos los demas e informa a
+python que AION backend tiene arquitectura de paquete.
 
 Recopila:
     Funcion Fabrica de aplicativo
-    Paquetes de planos de aplicacion
+    Paquetes Configuracion del aplicativo
+    Paquetes Planos de aplicacion
+    Paquetes Entidades
 """
 
 import os
@@ -45,9 +47,8 @@ def crear_app(entorno: str = "PRD") -> Flask:
     implementando el patron fabrica de aplicativo.
 
     Parametros:
-        entorno (str) ["PRD"] -- cadena que abrevia el nombre
-            del entorno a utilizar al configurar el
-            aplicativo
+        entorno (str) ["PRD"] -- cadena que abrevia el nombre del
+            entorno a utilizar al configurar el aplicativo
 
     Retorno:
         una aplicacion web configurada

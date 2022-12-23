@@ -20,7 +20,7 @@ class Entidad:
 
     Objeto base que representa una entidad abstracta de una base
     de datos sin base declarativa. Las entidades heredan los
-    campos identificador (id) y diminutivo (diminu)
+    campos identificador (id) y diminutivo (diminu).
 
     Agrupa metodos utiles heredables utiles para el
     de las demas entidades.
@@ -29,13 +29,11 @@ class Entidad:
     diminu = Column(String, unique=True, nullable=False)
 
     # Metodo dunder: Constructor Entidad
-    def __init__(self, diminu: str):
-        self.diminu = diminu.lower()
+    def __init__(self, diminu: str): self.diminu = diminu.lower()
 
     # Metodo propiedad: Identificador
     @property
-    def id(self) -> int:
-        return self.id
+    def id(self) -> int: return self.id
 
     # Metodo ajuste: Identificador
     @id.setter
@@ -43,5 +41,4 @@ class Entidad:
         raise AttributeError('El identificador unico no es sobreescribible')
 
     # Metodo: Prefijo diminutivo
-    def prefix(self) -> str:
-        return f'{self.diminu}_'
+    def prefix(self) -> str: return f'{self.diminu}_'

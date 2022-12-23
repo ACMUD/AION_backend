@@ -17,6 +17,12 @@
 
 Servir de índice de direcciones principales para redirigir a las
 demás funcionalidades de AION.
+
+Recopila:
+    Aplicativo
+    Protocolo Crear tablas
+    Ruta Icono por defecto
+    Ruta Principal
 """
 
 # "Aquello que importa" --
@@ -56,7 +62,7 @@ from .entidades import engine, Base
 # creacion de tablas del esquema
 @app.before_first_request
 def create_tables():
-    """ Protocolo: crear tablas
+    """ Protocolo: Crear tablas
 
     Genera todos los metadatos del esquema
     """

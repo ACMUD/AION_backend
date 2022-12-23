@@ -14,8 +14,6 @@ El usuario puede:
 - Organizar los horarios basado en filtros
 - Solicitar que se organicen automaticamente unos horarios basado en filtros
 
-## Demostraciones
-
 ## Canales de comunicación
 
 ### Para ser un colaborador
