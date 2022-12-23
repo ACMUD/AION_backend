@@ -68,10 +68,15 @@ def create_tables():
     """
     Base.metadata.create_all(engine)
 
+#@app.after_request # En desarrollo
+#def add_favicon(response):
+#    return "<link rel='icon' type='image/x-icon' href='" + \
+#        icono()[0] + "'/>" + "<body>" + response.response + "</body>"
+
 
 ##Configuracion de rutas principales del indice
 
-from flask import redirect, url_for
+from flask import redirect, url_for, jsonify
 
 # Ruta: Icono por defecto
 @app.route('/favicon.ico')

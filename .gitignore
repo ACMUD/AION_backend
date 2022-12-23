@@ -1,0 +1,23 @@
+# Archivos los cuales no son actualizados en el repositorio remoto
+
+# Dependencias
+
+#  para la migracion de la bases de datos (usando alembic)
+/migrations/
+/alembic.ini
+
+# Configuracion y Pruebas
+
+/*.txt
+/src/const.py
+/src/config/config_prd.json
+/src/config/db.json
+/src/pruebas/
+/src/entidades/autentificacion/
+/src/archivos/al_cargar/submition[A-Z].pdf
+
+#  basura autogenerada
+**/__pycache__/
+
+# Excepciones
+!/requirements.txt
