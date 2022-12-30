@@ -42,41 +42,36 @@ app = crear_app(entorno = "DES")
 
 ##Registro de BluePrints
 
-#from .AION import AION_Blp
-#app.register_blueprint(AION_Blp)
+from .AION import AION_Blp
+app.register_blueprint(AION_Blp)
 
 from .trazabilidad import Trazabilidad_Blp
 app.register_blueprint(Trazabilidad_Blp)
-
-#from .autentificacion import Autentificacion_Blp
-#app.register_blueprint(Autentificacion_Blp)
-
-#from .pruebas import Pruebas_Blp
-#app.register_blueprint(Pruebas_Blp)
 
 
 ##Generacion del esquema de base de datos
 
 from .entidades import engine, Base
 
-# creacion de tablas del esquema
+#creacion de tablas del esquema
 @app.before_first_request
 def create_tables():
     """ Protocolo: Crear tablas
 
-    Genera todos los metadatos del esquema
+    Genera todos los metadatos del esquema.
     """
     Base.metadata.create_all(engine)
-
-#@app.after_request # En desarrollo
-#def add_favicon(response):
-#    return "<link rel='icon' type='image/x-icon' href='" + \
-#        icono()[0] + "'/>" + "<body>" + response.response + "</body>"
 
 
 ##Configuracion de rutas principales del indice
 
 from flask import redirect, url_for, jsonify
+
+#@app.after_request # En desarrollo
+#def add_favicon(response):
+    #return response
+    #return "<link rel='icon' type='image/x-icon' href='" +\
+        #icono()[0] + "'/>" + "<body>" + response.response + "</body>"
 
 # Ruta: Icono por defecto
 @app.route('/favicon.ico')

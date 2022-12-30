@@ -14,6 +14,7 @@
 /src/config/db.json
 /src/pruebas/
 /src/entidades/autentificacion/
+/src/controladores/usuario.py
 /src/archivos/al_cargar/submition[A-Z].pdf
 
 #  basura autogenerada

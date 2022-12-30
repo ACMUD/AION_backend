@@ -28,6 +28,7 @@ from .trazabilidad import obtener_trazabilidad
 # Ruta: Trazabilidad completa
 #configuracion de la ruta para ver el acerca de AION /about
 @Trazabilidad_Blp.route('/about')
+@Trazabilidad_Blp.route('/about/')
 def about():
     retrum = {}
     retrum.update(obtener_trazabilidad("AION"))
@@ -36,11 +37,11 @@ def about():
     for descriptor in ["MAION", "VAION"]:
         retrum["descriptores"].append(obtener_trazabilidad(descriptor))
 
-    retrum["colaboradores"] = about_colaboradores()[0].json
+    retrum["colaboradores"] = about_us()[0].json
     return jsonify(retrum), 200
 
 @Trazabilidad_Blp.route('/about/colaboradores')
-def about_colaboradores():
+def about_us():
     """ Ruta: Trazabilidad colaboradores
 
     Configuracion de la ruta para ver el acerca de los
