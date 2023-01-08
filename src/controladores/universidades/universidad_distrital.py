@@ -16,6 +16,7 @@ from ...entidades.horario.universidad import (
         UniversidadEntidad,
         UniversidadEsquema)
 
+from ...AION.AION import creadorHorario
 from ...modelos.universidades.universidad_distrital import\
         UniversidadDistritalFactoria
 
@@ -159,6 +160,19 @@ class UniversidadDistritalControlador(UniversidadControlador):
             #recibidor por si error
             return self._updateHorarios(parametros)
 
+        if evento == '/universidad/<idU>/AION':
+            #condicional detalles completos de la solicitud
+            if (type(parametros) != dict or
+                    'postJson' not in parametros):
+                #recibidor por si errores
+                return get_obj_as_response(
+                        self._getSubRespuestas([
+                                'Parametros incorrectos',
+                                'Respuesta invalida']),406)
+
+            #recibidor por si error
+            return self._useAION(parametros)
+
         #recibidor por si error del comando
         return get_obj_as_response(
                 self._getSubRespuestas(['Respuesta invalida']),406)
@@ -200,7 +214,10 @@ class UniversidadDistritalControlador(UniversidadControlador):
             '/universidad/<idU>/proyectos',
             '/universidad/<idU>/horarios',
             '/universidad/<idU>/horarios/codigo/<codMat>',
-            '/universidad/<idU>/horarios/codigo/<codMat>/grupo/<idGrup>']
+            '/universidad/<idU>/horarios/codigo/<codMat>/grupo/<idGrup>',
+            '/universidad/<idU>/cargar_archivo',
+            '/universidad/<idU>/horarios/actualizar/<tipo>',
+            '/universidad/<idU>/AION']
 
     @staticmethod
     def _getUniversidad() -> Response:
@@ -508,4 +525,37 @@ class UniversidadDistritalControlador(UniversidadControlador):
         return get_obj_as_response(
                 {'Respuesta':
                 'Horarios actualizados'},
+                200) #recibidor del comando
+
+    @staticmethod
+    def _useAION(parametros: dict) -> Response:
+        """
+        """
+        nodos = []
+        for materia in parametros['postJson']:
+            #obtiene el horario de la materia
+            horarios = __class__._getMateriaHorario(
+                    {'codMat': materia['codMat'],
+                    'idGrupo': materia['idGrp']}).json
+
+            nodos.append(
+                    {'identificadores': materia,
+                    'disgregadores': []})
+
+            if type(horarios) != list:
+                return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Parametros incorrectos',
+                    'Respuesta vacia',
+                    'Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+            #por cada horario obtenido agrega los disgregadores de la UD
+            # al nodo
+            for horario in horarios:
+                nodos[-1]['disgregadores'].append(
+                        [materia['codMat'],
+                        f'{horario["dia"]} {horario["hora"]}'])
+
+        return get_obj_as_response(
+                creadorHorario(nodos),
                 200) #recibidor del comando

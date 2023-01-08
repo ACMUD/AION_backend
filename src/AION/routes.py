@@ -27,6 +27,7 @@ Recopila:
     Ruta Horario materia
     Ruta Cargar archivo
     Ruta Actualizar horarios
+    Ruta Utilizar AION
 """
 
 from . import AION_Blp
@@ -151,3 +152,13 @@ def univ_update_horarios(idU, tipo: str):
     try: return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule, extension = tipo)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
+
+# configuracion de la ruta que crea una lista de horarios ideales a traves
+#  de algoritmos de ciencia de datos /universidad/<idU>/AION
+@AION_Blp.route('/universidad/<idU>/AION',methods = ['POST'])
+def aion(idU):
+    try:
+        post = request.get_json()
+        return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule, postJson = post)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
