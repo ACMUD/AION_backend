@@ -31,6 +31,7 @@ class DBControlador(Controlador):
     # Atributo concreto: Respuesta invalida
     respuesta_invalida = {"Respuesta invalida": # Fallo general
             'Conexion a base de datos rechazada',
+
             "Respuesta vacia": # Fallo si hay carencia de respuesta
             'Conexion a base de datos devolvio una respuesta vacia'}
 

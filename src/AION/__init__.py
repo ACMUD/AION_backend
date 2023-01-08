@@ -27,5 +27,5 @@ from flask import Blueprint
 
 AION_Blp = Blueprint('AION',__name__)
 
-#importa las rutas de trazabilidad de AION
+#importa las rutas de servicios de AION
 from . import routes

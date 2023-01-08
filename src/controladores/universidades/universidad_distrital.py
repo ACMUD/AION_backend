@@ -15,8 +15,13 @@ from ...config import config
 from ...entidades.horario.universidad import (
         UniversidadEntidad,
         UniversidadEsquema)
+
+from ...modelos.universidades.universidad_distrital import\
+        UniversidadDistritalFactoria
+
 from ...utilidades.utilidades_db import (
         get_one_from_table_by_filter)
+
 from ...utilidades.utilidades_JSON import get_JSON_as_obj
 from ...utilidades.utilidades_web import get_obj_as_response
 
@@ -43,11 +48,11 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
             "Respuesta vacia": # Fallo si hay carencia de respuesta
             'Solicitud a Universidad Distrital Francisco Jose de Caldas ' +
-            'devolvio una respuesta vacia',
+                'devolvio una respuesta vacia',
 
             "Fichero inexistente": # Fallo si no existe un fichero valido
             'Fichero utilizado para la solicitud es inexistente o no pudo' +
-            'ser alcanzado',
+                'ser alcanzado',
 
             "Respuesta ajena": # Fallo si no hay respuesta programada
             'Error de programacion en las respuestas'
@@ -127,6 +132,32 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
             #recibidor por si error
             return self._getMateriaHorario(parametros)
+
+        if evento == '/universidad/<idU>/cargar_archivo':
+            #condicional detalles completos de la solicitud
+            if (type(parametros) != dict or
+                    'postFile' not in parametros):
+                #recibidor por si errores
+                return get_obj_as_response(
+                        self._getSubRespuestas([
+                                'Parametros incorrectos',
+                                'Respuesta invalida']),406)
+
+            #recibidor por si error
+            return self._setHorarios(parametros)
+
+        if evento == '/universidad/<idU>/horarios/actualizar/<tipo>':
+            #condicional detalles completos de la solicitud
+            if (type(parametros) != dict or
+                    'extension' not in parametros):
+                #recibidor por si errores
+                return get_obj_as_response(
+                        self._getSubRespuestas([
+                                'Parametros incorrectos',
+                                'Respuesta invalida']),406)
+
+            #recibidor por si error
+            return self._updateHorarios(parametros)
 
         #recibidor por si error del comando
         return get_obj_as_response(
@@ -310,8 +341,8 @@ class UniversidadDistritalControlador(UniversidadControlador):
         materia.
 
         Parametros:
-            parametros (dict) -- diccionario de parametros, para
-                el comando el diccionario debe contener la llave
+            parametros (dict) -- diccionario de parametros para
+                el comando, el diccionario debe contener la llave
                 `codMat`, que corresponde al codigo de la materia
                 a buscar
         """
@@ -326,6 +357,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                     ['Respuesta vacia','Fichero inexistente']),
                     406) #recibidor por si error del comando
 
+        #trata de encontrar los horarios de la materia
         try: materia_dict = horario_dict[parametros['codMat']]
         except KeyError as k:
             return get_obj_as_response(
@@ -363,8 +395,8 @@ class UniversidadDistritalControlador(UniversidadControlador):
         de una materia.
 
         Parametros:
-            parametros (dict) -- diccionario de parametros, para
-                el comando el diccionario debe contener la llave
+            parametros (dict) -- diccionario de parametros para
+                el comando, el diccionario debe contener la llave
                 `codMat`, que corresponde al codigo de la materia
                 a buscar y la llave `idGrupo`, que corresponde al
                 identificador del grupo a buscar
@@ -380,6 +412,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                     ['Respuesta vacia','Fichero inexistente']),
                     406) #recibidor por si error del comando
 
+        #trata de encontrar el horario del grupo de la materia
         try:
             materia_dict =\
                     horario_dict[parametros['codMat']][parametros['idGrupo']]
@@ -398,3 +431,81 @@ class UniversidadDistritalControlador(UniversidadControlador):
         return get_obj_as_response(__class__._getSubRespuestas(
                 ['Respuesta vacia','Respuesta invalida']),
                 406) #recibidor por si error del comando
+
+    @staticmethod
+    def _setHorarios(parametros: dict) -> Response:
+        """ Metodo de clase: Ajustar horarios
+
+        Metodo que ajusta el archivo de los horarios de la
+        Universidad Distrital Francisco Jose de Caldas.
+
+        Parametros:
+            parametros (dict) -- diccionario de parametros para
+                el comando, el diccionario debe contener la llave
+                `postFile`, que corresponde con la ruta del
+                archivo con los nuevos horarios
+        """
+        #opcional fichero no enviado
+        if parametros['postFile'].filename == '':
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Respuesta vacia','Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        #opcional fichero no existe
+        if not parametros['postFile']:
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Fichero inexistente','Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        #asigna la extension solo si es valida
+        extension = UniversidadDistritalFactoria.extension_permitida(
+                parametros['postFile'].filename)
+
+        #condicional no se asigno extension
+        if not extension:
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Parametros incorrectos','Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        #fuerza la creacion del directorio si no existe
+        UniversidadDistritalFactoria().getAlmacenadorJSON().inicializar()
+
+
+        #carga el archivo
+        archivo = f'submission.{extension}'
+        parametros['postFile'].save(__class__.directorio + '\\' + archivo)
+
+        return get_obj_as_response(
+                {'Respuesta': 'Archivo cargado',
+                'Extension': extension},
+                201) #recibidor del comando
+
+    @staticmethod
+    def _updateHorarios(parametros: dict) -> Response:
+        """ Metodo de clase: Actualizar horarios
+
+        Metodo que actualiza los horarios de la Universidad
+        Distrital Francisco Jose de Caldas.
+
+        Parametros:
+            parametros (dict) -- diccionario de parametros para
+                el comando, el diccionario debe contener la llave
+                `extension`, que corresponde a la extension del
+                archivo con los nuevos horarios
+        """
+        #trata de crear el json
+        try:
+            UniversidadDistritalFactoria().\
+                getCreadorJSON(parametros['extension']).\
+                crear_JSON()
+
+        #opcional si el fichero para actualizar los horarios no existe
+        except FileNotFoundError:
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Fichero inexistente','Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        return get_obj_as_response(
+                {'Respuesta':
+                'Horarios actualizados'},
+                200) #recibidor del comando

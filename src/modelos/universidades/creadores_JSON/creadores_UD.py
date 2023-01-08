@@ -31,6 +31,7 @@ Recopila:
 """
 
 from ..universidad_distrital import CreadorJSONUD, AlmacenadorJSONUD
+from ....config import config
 
 class CreadorJSONUDByPDF(CreadorJSONUD):
     """ Clase: Creador de JSON por PDF
@@ -138,9 +139,18 @@ class CreadorJSONUDByPDF(CreadorJSONUD):
     def crear_JSON(self):
         import pdfplumber as miner
         self.almacenador.inicializar()
-        with miner.open(r'.\src\archivos\al_cargar\submition.pdf') as pdf:
-            for num_pag in range(len(pdf.pages)):
-                self.procesar_pag(pdf.pages[num_pag].extract_text())
+
+        #trata de alcanzar el fichero para actualizar los horarios
+        try:
+            with miner.open(
+                    config["directorio_carga"] +
+                    r'\..\ud\submission.pdf') as pdf:
+                for num_pag in range(len(pdf.pages)):
+                    self.procesar_pag(pdf.pages[num_pag].extract_text())
+
+        except FileNotFoundError:
+            raise FileNotFoundError #excepcion capturada y lanzada
+
         self.almacenador.finalizar()
 
 # Clase: Creador de JSON por XML (CreadorJSONUD)

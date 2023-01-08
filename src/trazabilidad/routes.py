@@ -28,7 +28,6 @@ from .trazabilidad import obtener_trazabilidad
 # Ruta: Trazabilidad completa
 #configuracion de la ruta para ver el acerca de AION /about
 @Trazabilidad_Blp.route('/about')
-@Trazabilidad_Blp.route('/about/')
 def about():
     retrum = {}
     retrum.update(obtener_trazabilidad("AION"))

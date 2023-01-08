@@ -64,6 +64,7 @@ def crear_app(entorno: str = "PRD") -> Flask:
     app.config['BASE_DIR'] = os.path.dirname(os.path.abspath(__file__))
     app.config['SECRET_KEY'] = config["clave_secreta"]
     app.config['UPLOAD_FOLDER'] = config["directorio_carga"]
+    app.config['BCRYPT_LOG_ROUNDS'] = config["iteraciones"]
     app.config['DEBUG'] = config["depurado"]
 
     #tranformamos la aplicacion a una API consumible

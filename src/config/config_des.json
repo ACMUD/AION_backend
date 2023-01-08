@@ -1,4 +1,6 @@
 {
   "clave_secreta": "claveseccreta410N84ck3nd",
-  "depurado": true
+  "depurado": true,
+  "iteraciones": 4,
+  "duracion_simbolismo": {"minutes":6}
 }

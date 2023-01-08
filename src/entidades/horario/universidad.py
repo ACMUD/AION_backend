@@ -16,8 +16,8 @@ Entidad y Esquema de universidad.
 
 from sqlalchemy import Column, ForeignKey, Integer, String
 
-from .. import Base
 from ..entidad import Entidad
+from ...entidades import Base
 
 class UniversidadEntidad(Entidad, Base):
     """ Clase: Entidad Universidad

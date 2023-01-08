@@ -17,7 +17,7 @@ despliegue de los horarios. Las bases declarativas permiten que
 las entidades sean manejadas y migradas.
 
 
-    Modulo: Cabecera del paquete entidad de horarios
+    Modulo: Cabecera del paquete entidades de horarios
 Este modulo informa a python una arquitectura de paquete.
 """
 

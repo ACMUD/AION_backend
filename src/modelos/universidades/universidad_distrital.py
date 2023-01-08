@@ -16,11 +16,9 @@ Familia de clases de la Universidad Distrital Francisco Jose de
 Caldas.
 """
 
-from collections.abc import Mapping
-from typing import Any
-
-from ...config import config
 from .almacenador_JSON import AlmacenadorJSON
+from ...config import config
+from ...utilidades.utilidades_JSON import update_dict, update_json_file
 
 class AlmacenadorJSONUD(AlmacenadorJSON):
     """ Clase: Almacenador del JSON Universidad Distrital
@@ -62,44 +60,6 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
 
         self.periodo = None
 
-    @staticmethod #puede que el metodo se mueva a
-    #   utilidades/utilidades_JSON en versiones posteriores
-    def actualizar_dict(dic: dict,
-                    clav: str,
-                    val: Any = None,
-                    tipo: type = list):
-        """ Metodo de clase: Actualizar diccionario generico
-
-        Metodo que actualiza las claves de un diccionario con
-        valores o las inicializa por defecto (dependiendo el tipo
-        de dato), para que python sepa como actualizarlo en
-        siguientes peticiones.
-
-        Parametros:
-            dic (dict) -- el diccionario a actualizar
-            clav (str) -- la clave a actualizar dentro del
-                diccionario
-            val (Any) [None] -- el valor serializable que se
-                introduce en el diccionario
-            tipo (type) [list] -- el tipo de valores que se
-                introcen en el diccionario, asumiendo que por
-                defecto se pretenden asociar varios valores a una
-                misma clave
-        """
-        # condicion clave no existe, asigna el tipo de dato en su
-        #  valor por defecto (ej: list -> []; str -> "")
-        if clav not in dic:
-            dic.update({clav:tipo()})
-
-        # condicional el tipo de dato es una lista y no contiene
-        #  el valor, agrega el valor al final de la lista
-        if tipo == list and val not in dic[clav]:
-            dic[clav].append(val)
-
-        # opcional el tipo de dato es una cadena, asigna el valor
-        elif tipo == str:
-            dic[clav] = val
-
     def agregar(self, value: dict):
         """ Metodo concreto: Agregar datos a los diccionarios
 
@@ -126,128 +86,43 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
                 self.periodo = 'ud' + value['anio'] + '-' + value['periodo']
 
             # actualiza las facultades con una materia y su grupo
-            self.actualizar_dict(self.facultads,
+            update_dict(self.facultads,
                              value['facultad'],
                              val = (value['cod.'],value['grp.']))
 
             # actualiza los proyectos curriculares con una
             #  materia y su grupo
-            self.actualizar_dict(self.proyectos,
+            update_dict(self.proyectos,
                              value['proyecto curricular'],
                              val = (value['cod.'],value['grp.']))
 
             # actualiza los dursos, para que exista un
             #  diccionario por cada curso
-            self.actualizar_dict(self.cursos,
+            update_dict(self.cursos,
                              value['cod.'],
-                             tipo = dict)
+                             typ = dict)
 
             # actualiza el diccionario del curso con un nombre de
             #  espacio academico
-            self.actualizar_dict(self.cursos[value['cod.']],
+            update_dict(self.cursos[value['cod.']],
                              'espacio academico',
                              val = value['espacio academico'],
-                             tipo = str)
+                             typ = str)
 
             # actualiza el diccionario del curso con los demas
             #  datos relevantes (materia, grupo, anio y periodo)
-            self.actualizar_dict(self.cursos[value['cod.']],
+            update_dict(self.cursos[value['cod.']],
                              value['grp.'],
                              val = {i: value[i]
                                     for i in value
                                     if i not in ['cod.','grp.',
                                                  'anio','periodo']},
-                             tipo = list)
+                             typ = list)
 
         except KeyError as k:
             raise KeyError(f' Clave {k} no encontrada, verifique que usa un ' +
                 'creador de JSON adecuado para el Almacenador de JSON' +
                 type(self).__name__)
-
-    @staticmethod #puede que el metodo se mueva a
-    #   utilidades/utilidades_JSON en versiones posteriores
-    def mezclar_dict(orig: Mapping, agrega: Mapping) -> Mapping:
-        """ Metodo de clase: Mezclar diccionarios
-
-        Metodo que agrega contenido de un mapeador (ej: un JSON,
-        un diccionario) a otro agregandolo o sobreescribiendo el
-        material original dependiendo del tipo de dato. El metodo
-        tiene en cuenta si el contenido tiene niveles profundos
-        de mapeadores para mezclarlos de manera segura
-        autollamandose.
-
-        Parametros:
-            orig (Mapping) -- mapeador original
-            agrega (Mapping) -- mapeador con contenido a
-                agregar con posibles llaves cruzadas
-
-        Retorno:
-            un mapeador con el contenido de ambos mapeadores
-                mezclado de manera segura
-
-        Excepsiones:
-            ValueError (Fallo al mezclar {valor_nuevo} con
-                {valor_orig}) -- si los contenidos no son
-                agregables o sobreescribibles uno del otro por
-                coincidencia de tipos
-        """
-        # por cada item a agregar
-        for clave, valor in agrega.items():
-            # condicional clave del item existe, realiza mezcla
-            #  segura
-            if clave in orig:
-                valor_orig = orig[clave]
-
-                # condicional el valor original y el agrergado son
-                #  mapeadores
-                if (isinstance(valor, Mapping) and
-                    isinstance(valor_orig, Mapping)):
-                    # autollamado (mezcla segura del contenido
-                    #  del siguiente nivel)
-                    mezclar_dict(valor_orig, valor)
-
-                # opcional no son mapeadores los valores,
-                #  sobreescribe el original
-                elif not (isinstance(valor, Mapping) or
-                          isinstance(valor_orig, Mapping)):
-                    orig[clave] = valor
-
-                # opcional no coinciden los mapeadores (alguno es
-                #  mapeador y el otro no), lanza un error
-                else:
-                  raise ValueError(f'Fallo al mezclar {valor} con {valor_orig}')
-
-            # opcional clave del item no existe, agrega el item
-            else:
-                orig[clave] = valor
-
-    @staticmethod #puede que el metodo se mueva a
-    #   utilidades/utilidades_JSON en versiones posteriores
-    def actualizar_json(json_dict: dict, json_ruta: str):
-        """ Metodo de clase: Actualizar un fichero JSON
-
-        Metodo que actualiza el contenido de un fichero JSON tras
-        mezclarlo con nuevos datos.
-
-        Parametros:
-            json_dict (dict) -- diccionario con nuevos datos a
-                agregar
-            json_ruta: (str) -- ruta del fichero JSON a
-                actualizar
-        """
-        import json
-        from os import path
-        # condicional existe fichero JSON
-        if path.isfile(json_ruta):
-            #abre el fichero y lo mezcla en el diccionario
-            with open(json_ruta) as archivo:
-                mezclar_dict(json_dict,json.load(archivo))
-
-        json_str = json.dumps(json_dict) #convierte en JSON el diccionario
-
-        # actualiza el fichero
-        with open(json_ruta, 'w') as salida:
-            salida.write(json_str)
 
     def finalizar(self):
         """ Metodo concreto: Finalizar almacenando
@@ -255,19 +130,21 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
         Metodo que finaliza el almacenado actualizando todos los
         JSON con los datos de los diccionarios
         """
+        # actualiza el JSON de cursos
+        update_json_file(self.cursos,
+                f'{self.directorio}\{self.periodo}.json')
+
+        # actualiza el JSON de facultades
+        update_json_file(self.facultads,
+                f'{self.directorio}\{self.periodo}-facultades.json')
+
+        # actualiza el JSON de proyectos curriculares
+        update_json_file(self.proyectos,
+                f'{self.directorio}\{self.periodo}-proyectos.json')
+
         # actualiza el archivo de cabecera de la universidad
         with open(f'{self.directorio}\cabecera', 'w') as cabecera:
             cabecera.write(self.periodo.replace('ud',''))
-
-        # actualiza el JSON de cursos
-        self.actualizar_json(self.cursos,
-                f'{self.directorio}\{self.periodo}.json')
-        # actualiza el JSON de facultades
-        self.actualizar_json(self.facultads,
-                f'{self.directorio}\{self.periodo}-facultades.json')
-        # actualiza el JSON de proyectos curriculares
-        self.actualizar_json(self.proyectos,
-                f'{self.directorio}\{self.periodo}-proyectos.json')
 
 from .creador_JSON import CreadorJSON
 
@@ -323,3 +200,24 @@ class UniversidadDistritalFactoria(UniversidadFactoria):
         Universidad Distrital.
         """
         return selector_creador_UD(origen)(self.getAlmacenadorJSON())
+
+    @staticmethod
+    def extension_permitida(origen: str) -> str:
+        """ Metodo de clase: Extension es permitida
+
+        Metodo que retorna la extension de un fichero de origen
+        si es una extension permitida, o nulo en otro caso.
+
+        Parametro:
+            origen (str) -- nombre de un fichero de origen
+
+        Retorno:
+            una extension validada o nulo
+        """
+        if '.' in origen:
+            extension = origen.rsplit('.', 1)[1].lower()
+
+            if extension in ['pdf','xml']:
+                return extension
+
+        return None

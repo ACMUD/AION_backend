@@ -15,17 +15,28 @@
 Recopilar las rutas para acceder a los servicios de AION backend.
 
 Recopila:
-    Ruta
+    Ruta Universidades
+    Ruta Universidad
+    Ruta Diminutivo universidad
+    Ruta Cabecera universidad
+    Ruta Previsulizacion universidad
+    Ruta Facultades universidad
+    Ruta Proyectos universidad
+    Ruta Horarios universidad
+    Ruta Horarios materia
+    Ruta Horario materia
+    Ruta Cargar archivo
+    Ruta Actualizar horarios
 """
 
 from . import AION_Blp
+from ..autentificacion.autentificacion import requiere_admin
 from ..controladores.db import DBControlador
 from ..controladores.selector_universidad import selector_universidad
 from ..utilidades.utilidades_web import get_obj_as_response
 
-import json
-import requests
-from flask import jsonify, request, url_for, current_app
+from flask import request
+from flask_login import login_required
 
 controlDB = DBControlador().realizadorAcciones
 
@@ -85,19 +96,6 @@ def univ_proyectos(idU):
             request.url_rule.rule)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
 
-def filtro_horario(idU:int, codMat:int = None, idGrup:str = None) -> dict:
-    diminu = univ_diminu(idU)
-    with open(f'src\\archivos\\{diminu}\\{diminu}' +
-              f'{univ_cabecera_str(diminu)}.json') as horario_file:
-        horario_dict = json.load(horario_file)
-        if not codMat: return horario_dict
-        else:
-            try:
-                if not idGrup: return horario_dict[codMat]
-                else: return horario_dict[codMat][idGrup]
-            except:
-                return []
-
 # configuracion de la ruta que devuelve todos los horarios de una
 #  universidad por su id /universidad/<idU>/horarios
 @AION_Blp.route('/universidad/<idU>/horarios')
@@ -123,4 +121,33 @@ def univ_materia_horarios(idU, codMat):
 def univ_materia_horario(idU, codMat, idGrup):
     try: return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule, codMat = codMat, idGrupo = idGrup)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
+
+# configuracion de la ruta que carga un archivo al directorio de una
+#  universidad /universidad/<idU>/cargar_archivo
+#  requiere iniciar sesion y ser administrador
+@AION_Blp.route('/universidad/<idU>/cargar_archivo', methods=["POST"])
+@login_required
+@requiere_admin()
+def univ_update_file(idU):
+    try: archivo = request.files['file']
+    except KeyError:
+        return get_obj_as_response(
+            {"Falta archivo":
+            'La peticion carece del archivo necesario'},
+            412)
+
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule, postFile=archivo)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
+
+# configuracion de la ruta que actualiza los horarios de una universidad
+#  si existe un archivo para actualizar /universidad/<idU>/cargar_archivo
+#  requiere iniciar sesion y ser administrador
+@AION_Blp.route('/universidad/<idU>/horarios/actualizar/<tipo>')
+@login_required
+@requiere_admin()
+def univ_update_horarios(idU, tipo: str):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule, extension = tipo)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 406)

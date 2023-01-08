@@ -106,3 +106,12 @@ def get_one_from_table_by_filter(
         raise exc.SQLAlchemyError(SQL) #exception catched and raise
     finally: session.close()
     return match
+
+# Function: Add a record and commit
+def add_record(record: Entidad):
+    try:
+        session.add(record)
+        session.commit()
+    except exc.SQLAlchemyError as SQL:
+        raise exc.SQLAlchemyError(SQL) #exception catched and raise
+    finally: session.close()

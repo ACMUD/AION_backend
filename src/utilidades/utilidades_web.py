@@ -38,9 +38,10 @@ def get_post_args(headers: tuple) -> dict:
     """
     retrum = dict()
     for i in headers:
+        print(i)
         try: retrum[i] = request.form[i] #get the header in a request
         except BadRequestKeyError as brk:
-            print(brk)  #exception catched for debug
+            print(brk) #exception catched for debug
 
     return retrum
 

@@ -21,11 +21,19 @@ El usuario puede:
 
 ### Para ser un colaborador
 
+(sin actualizar)
+
 ### Para reportar problemas
+
+(sin actualizar)
 
 ### Para proponer ideas
 
+(sin actualizar)
+
 ### Para conocer proximas actualizaciones
+
+(sin actualizar)
 
 ## Instalación
 
@@ -34,13 +42,13 @@ El usuario puede:
 - [Pipenv](https://pypi.org/project/pipenv/)
 - [Git](https://git-scm.com/downloads): Instale Git de manera tal que sea usable en la Consola de Comandos de su sistema operativo.
 
-### Clonar el repositorio
+### Clonando el repositorio
 Antes que nada cree la carpeta en la que almacenará el repositorio, se recomienda un ruta nombrada `AION/backend`.
 Para descargar el repositorio dispone de varios metodos (clonacion, descarga o solicitud de cambios). Para el tutorial se recomendara la solicitud de cambios. [Abra la Consola de Comandos en el directorio](https://www.groovypost.com/howto/open-command-window-terminal-window-specific-folder-windows-mac-linux/) y ejecute `git init`, esto inicializará el directorio como alojamiento para un repositorio local. Ejecute `git pull https://github.com/ACMUD/AION_backend main` y esto descargará el repositorio a su directorio. A continuación un gif mostrando lo escrito.
 
 ![GIF Tutorial clonacion repositorio](/guides/AION_tutorial-InstalacionClonar.gif)
 
-### Instalar el entorno de trabajo y las dependencias
+### Instalando el entorno de trabajo y las dependencias
 Cree un entorno de trabajo con Pipenv ejecutando `py -m pipenv --three` y luego instale las dependencias del repositorio en el entorno ejecutando `py -m pipenv install`. A continuación un gif mostrando lo escrito.
 
 ![GIF Tutorial instalacion dependencias](/guides/AION_tutorial-InstalacaionInstalar.gif)
@@ -95,6 +103,8 @@ Para realizar una prueba del aplicativo puede dirigirse en el navegador a la dir
   - Otras dependencias son descritas en el archivo de [requerimientos](/requirements.txt)
 
 ## Politica sobre las ramas
+
+(sin actualizar)
 
 ## Licencia
 

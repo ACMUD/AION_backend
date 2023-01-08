@@ -32,21 +32,24 @@ from . import crear_app
 app = crear_app(entorno = "DES")
 
 
-##Generacion del sistema de sesion
-
-#from flask_httpauth import HTTPBasicAuth
-
-#inicializacion el logeo
-#gestor_sesion = HTTPBasicAuth()
-
-
 ##Registro de BluePrints
 
-from .AION import AION_Blp
-app.register_blueprint(AION_Blp)
+with app.app_context():
+    from .trazabilidad import Trazabilidad_Blp
+    app.register_blueprint(Trazabilidad_Blp)
 
-from .trazabilidad import Trazabilidad_Blp
-app.register_blueprint(Trazabilidad_Blp)
+    from .autentificacion import Autentificacion_Blp
+    app.register_blueprint(Autentificacion_Blp)
+
+    from .AION import AION_Blp
+    app.register_blueprint(AION_Blp)
+
+
+##Generacion del sistema de sesion
+
+with app.app_context():
+    from .autentificacion import gestor_sesion
+    gestor_sesion.init_app(app)
 
 
 ##Generacion del esquema de base de datos
