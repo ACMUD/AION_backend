@@ -51,6 +51,8 @@ def obtener_trazabilidad(especificador: str) -> dict:
     # Funcion: Trazabilidad de ACMUD
     def trazabilidad_ACMUD() -> dict:
         colaborador = {"nombre": "ACMUD",
+                "diminutivo": "ACMUD",
+                "enlace": "https://www.acmud.cf/",
                 # Creador, pero este facilita el manejo del frontend
                 "rol": "Colaborador",
                 "descripcion": "El Capitulo Estudiantil de la " +
@@ -96,6 +98,7 @@ def obtener_trazabilidad(especificador: str) -> dict:
     def trazabilidad_AION() -> dict:
         proyecto = {"nombre": "AION",
                 "rol": "Proyecto",
+                "enlace": "https://www.facebook.com/KairosUN",
                 "descripcion": "El Proyecto AION es un proyecto del " +
                 "Laboratorio de Proyectos de ACMUD, enfocado en la " +
                 "organizacion de horarios universitarios manual (por " +
@@ -122,6 +125,7 @@ def obtener_trazabilidad(especificador: str) -> dict:
     # Funcion: Trazabilidad de Alta Lengua
     def trazabilidad_AL() -> dict:
         colaborador = {"nombre": "Alta Lengua",
+                "diminutivo": "AL",
                 "rol": "Colaborador",
                 "descripcion": "El grupo Alta Lengua promueve la " +
                 "literacidad general y el uso de tecnologias en la " +

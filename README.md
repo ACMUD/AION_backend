@@ -116,7 +116,7 @@ Este proyecto se halla licenciado bajo la **[GNU General Public License v3](/LIC
 
 <img align="right" width="80" height="80" src="https://www.acmud.cf/static/media/logo_dark@2x.a77414011244bb13251c.png" alt="Icono del capitulo estudiantil ACMUD">
 
-El Capitulo Estudiantil de la *Association for Computing Machine ([ACM](https://www.acm.org/))*, de la Universidad Distrital Francisca José de Caldas es una agrupación estudiantil con reconocimiento nacional e internacional que se dedica a la promoción de conocimientos de ingeniería. El grupo cuenta con ejes de interes y un laboratorio de proyectos en los cuales participan diferentes estudiantes. El Proyecto AION empezó su desarrollo dentro del laboratorio de proyectos de ACMUD y recibe colaboración de multiples personas.
+El Capitulo Estudiantil de la *Association for Computing Machine ([ACM](https://www.acm.org/))*, de la Universidad Distrital Francisco José de Caldas es una agrupación estudiantil con reconocimiento nacional e internacional que se dedica a la promoción de conocimientos de ingeniería. El grupo cuenta con ejes de interes y un laboratorio de proyectos en los cuales participan diferentes estudiantes. El Proyecto AION empezó su desarrollo dentro del laboratorio de proyectos de ACMUD y recibe colaboración de multiples personas.
 
 ### [Proyecto original (Kairos)](https://www.facebook.com/KairosUN)
 
