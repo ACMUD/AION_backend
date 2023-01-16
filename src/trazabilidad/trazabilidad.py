@@ -50,14 +50,15 @@ def obtener_trazabilidad(especificador: str) -> dict:
 
     # Funcion: Trazabilidad de ACMUD
     def trazabilidad_ACMUD() -> dict:
-        colaborador = {"nombre": "ACMUD",
+        colaborador = {"nombre": "Capitulo Estudiantil ACM de la " +
+                "Universidad Distrital Francisco José de Caldas",
                 "diminutivo": "ACMUD",
                 "enlace": "https://www.acmud.cf/",
                 # Creador, pero este facilita el manejo del frontend
                 "rol": "Colaborador",
                 "descripcion": "El Capitulo Estudiantil de la " +
                 "Association for Computing Machine (ACM), de la " +
-                "Universidad Distrital Francisca José de Caldas es " +
+                "Universidad Distrital Francisco José de Caldas es " +
                 "una agrupación estudiantil con reconocimiento nacional " +
                 "e internacional que se dedica a la promoción de " +
                 "conocimientos de ingeniería. El grupo cuenta con ejes " +
