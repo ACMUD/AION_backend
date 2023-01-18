@@ -34,6 +34,7 @@ def obtener_trazabilidad(especificador: str) -> dict:
         - Trazabilidad de ACMUD (ACMUD)
         - Trazabilidad de Alta Lengua (AL)
         - Trazabilidad de Kairos (Kairos)
+        - Trazabilidad de PAWUD (PAWUD)
         - Trazabilidad de IAN (IAN)
         - Trazabilidad de AION (AION)
         - Trazabilidad de mision AION (MAION)
@@ -72,6 +73,12 @@ def obtener_trazabilidad(especificador: str) -> dict:
     def trazabilidad_Kairos() -> dict:
         proyecto = {"nombre": "Kairos",
                 "rol": "Proyecto",
+                "estado": "Desamparado",
+                "desarrolladores":
+                    ["Daniel Ricardo Castro ",
+                    "Cesar Augusto Villamizar",
+                    "Johan Sebastián Gómez"],
+                "enlace": "https://facebook.com/KairosUN",
                 "descripcion": "El Proyecto Kairos de la Universidad " +
                 "Nacional de Colombia (actualmente desamparado) era " +
                 "utilizado por estudiantes de la Universidad Nacional de " +
@@ -83,10 +90,27 @@ def obtener_trazabilidad(especificador: str) -> dict:
                 "incluir más universidades."}
         return proyecto
 
+    # Funcion: Trazabilidad de PAWUD
+    def trazabilidad_PAWUD() -> dict:
+        proyecto = {"nombre": "PAWUD",
+                "rol": "Proyecto",
+                "estado": "Activo",
+                "desarrolladores": ["Morideros"],
+                "enlace": "https://pawud.com.co/",
+                "descripcion": "El Proyecto PAWUD es un organizador de " +
+                "horarios inspirado en el proyecto Kairos, desarrollado por " +
+                "egresados de la Universidad Distrital Francisco José de " +
+                "Caldas. El proyecto se diseño enfocado en la " +
+                "funcionalidad, para presentar muchisimas más funciones a " +
+                "futuro."}
+        return proyecto
+
     # Funcion: Trazabilidad de IAN
     def trazabilidad_IAN() -> dict:
         proyecto = {"nombre": "IAN",
                 "rol": "Proyecto",
+                "estado": "Inactivo",
+                "desarrolladores": ["ACMUD", "Alta Lengua"],
                 "descripcion": "El Proyecto de Novela Visual con " +
                 "Inteligencia Artificial (IAN) es un proyecto del " +
                 "Laboratorio de Proyectos de ACMUD, enfocado en la " +
@@ -99,11 +123,17 @@ def obtener_trazabilidad(especificador: str) -> dict:
     def trazabilidad_AION() -> dict:
         proyecto = {"nombre": "AION",
                 "rol": "Proyecto",
-                "enlace": "https://www.facebook.com/KairosUN",
-                "descripcion": "El Proyecto AION es un proyecto del " +
+                "enlace": "https://github.com/ACMUD/AION_frontend",
+                "descripcion": "El Sistema AION es un proyecto del " +
                 "Laboratorio de Proyectos de ACMUD, enfocado en la " +
-                "organizacion de horarios universitarios manual (por " +
-                "peticiones) o automatica (a traves de tecnicas de IA)."}
+                "organizacion de horarios universitarios.\nA través de " +
+                "consultas, filtros y confirmaciones los usuarios pueden ver" +
+                "sus horarios planificados a través de una interfaz " +
+                "sencilla y pulcra. Además de los filtros manuales, " +
+                "el usuario cuenta con un gestor automatico (a traves de " +
+                "tecnicas de IA) para facilitar su labor.\nAION se presenta " +
+                "como una alternativa al proyecto Kairos, con mayor alcance " +
+                "y sencillez."}
         return proyecto
 
     # Funcion: Trazabilidad de MAION
@@ -136,6 +166,7 @@ def obtener_trazabilidad(especificador: str) -> dict:
     #condicional de funciones encapsuladas segun el argumento
     if especificador == "ACMUD": return trazabilidad_ACMUD()
     if especificador == "Kairos": return trazabilidad_Kairos()
+    if especificador == "PAWUD": return trazabilidad_PAWUD()
     if especificador == "IAN": return trazabilidad_IAN()
     if especificador == "AION": return trazabilidad_AION()
     if especificador == "MAION": return trazabilidad_MAION()

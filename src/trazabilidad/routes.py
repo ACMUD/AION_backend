@@ -47,7 +47,7 @@ def about_us():
     colaboradores de AION /about/colaboradores
     """
     retrum = []
-    for colaborador in ["ACMUD", "AL", "Kairos", "IAN"]:
+    for colaborador in ["ACMUD", "AL", "Kairos", "PAWUD", "IAN"]:
         retrum.append(obtener_trazabilidad(colaborador))
 
     return jsonify(retrum), 200
