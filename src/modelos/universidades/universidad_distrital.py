@@ -35,7 +35,9 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
     def __init__(self):
         AlmacenadorJSON.__init__(self)
         self.periodo = None
+        self.facultads_cursos = {}
         self.facultads = {}
+        self.proyectos_cursos = {}
         self.proyectos = {}
         self.cursos = {}
 
@@ -85,18 +87,31 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
             if not self.periodo:
                 self.periodo = 'ud' + value['anio'] + '-' + value['periodo']
 
-            # actualiza las facultades con una materia y su grupo
-            update_dict(self.facultads,
+            # actualiza los cursos de las facultades con una materia
+            #  y su grupo
+            update_dict(self.facultads_cursos,
                              value['facultad'],
                              val = (value['cod.'],value['grp.']))
 
-            # actualiza los proyectos curriculares con una
-            #  materia y su grupo
-            update_dict(self.proyectos,
+            # actualiza las facultades con sus proyectos
+            update_dict(self.facultads,
+                             value['facultad'],
+                             val = value['proyecto curricular'])
+
+            # actualiza los cursos de los proyectos curriculares con
+            #  una materia y su grupo
+            update_dict(self.proyectos_cursos,
                              value['proyecto curricular'],
                              val = (value['cod.'],value['grp.']))
 
-            # actualiza los dursos, para que exista un
+            # actualiza los proyectos con sus materias
+            update_dict(self.proyectos,
+                             value['proyecto curricular'],
+                             val = value['cod.'] +
+                                   '::' +
+                                   value['espacio academico'])
+
+            # actualiza los cursos, para que exista un
             #  diccionario por cada curso
             update_dict(self.cursos,
                              value['cod.'],
@@ -132,11 +147,19 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
         """
         # actualiza el JSON de cursos
         update_json_file(self.cursos,
-                f'{self.directorio}\{self.periodo}.json')
+                f'{self.directorio}\{self.periodo}-cursos.json')
+
+        # actualiza el JSON de cursos facultades
+        update_json_file(self.facultads_cursos,
+                f'{self.directorio}\{self.periodo}-cursos_facultades.json')
 
         # actualiza el JSON de facultades
         update_json_file(self.facultads,
                 f'{self.directorio}\{self.periodo}-facultades.json')
+
+        # actualiza el JSON de cursos proyectos curriculares
+        update_json_file(self.proyectos_cursos,
+                f'{self.directorio}\{self.periodo}-cursos_proyectos.json')
 
         # actualiza el JSON de proyectos curriculares
         update_json_file(self.proyectos,

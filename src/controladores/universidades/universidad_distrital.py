@@ -28,6 +28,7 @@ from ...utilidades.utilidades_web import get_obj_as_response
 
 from flask import jsonify, make_response
 from flask.wrappers import Response
+from flask_login import current_user
 import json
 
 class UniversidadDistritalControlador(UniversidadControlador):
@@ -101,8 +102,14 @@ class UniversidadDistritalControlador(UniversidadControlador):
         if evento == '/universidad/<idU>/facultades':
             return self._getFacultades()
 
+        if evento == '/universidad/<idU>/facultades/horarios':
+            return self._getFacultadesHorarios()
+
         if evento == '/universidad/<idU>/proyectos':
             return self._getProyectos()
+
+        if evento == '/universidad/<idU>/proyectos/horarios':
+            return self._getProyectosHorarios()
 
         if evento == '/universidad/<idU>/horarios': return self._getHorarios()
 
@@ -173,6 +180,9 @@ class UniversidadDistritalControlador(UniversidadControlador):
             #recibidor por si error
             return self._useAION(parametros)
 
+        if evento == '/universidad/<idU>/acciones':
+            return self._getAllowedActions()
+
         #recibidor por si error del comando
         return get_obj_as_response(
                 self._getSubRespuestas(['Respuesta invalida']),406)
@@ -211,13 +221,16 @@ class UniversidadDistritalControlador(UniversidadControlador):
             '/universidad/<idU>/cabecera',
             '/universidad/<idU>/preview',
             '/universidad/<idU>/facultades',
+            '/universidad/<idU>/facultades/horarios',
             '/universidad/<idU>/proyectos',
+            '/universidad/<idU>/proyectos/horarios',
             '/universidad/<idU>/horarios',
             '/universidad/<idU>/horarios/codigo/<codMat>',
             '/universidad/<idU>/horarios/codigo/<codMat>/grupo/<idGrup>',
             '/universidad/<idU>/cargar_archivo',
             '/universidad/<idU>/horarios/actualizar/<tipo>',
-            '/universidad/<idU>/AION']
+            '/universidad/<idU>/AION',
+            '/universidad/<idU>/acciones']
 
     @staticmethod
     def _getUniversidad() -> Response:
@@ -277,17 +290,40 @@ class UniversidadDistritalControlador(UniversidadControlador):
         """
         u = dict(__class__._getUniversidad().json)
         u["periodo_actual"] = __class__._getCabecera().json
+        u["acciones_permitidas"] = __class__._getAllowedActions().json
         return get_obj_as_response(u,200) #recibidor del comando
 
     @staticmethod
     def _getFacultades() -> Response:
         """ Metodo de clase: Obtener datos de facultades
 
+        Metodo que retorna la informacion de las facultades.
+        """
+        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+                __class__._getCabecera().json + '-facultades.json'
+        facultad_dict = get_JSON_as_obj(ruta_archivo)
+
+        #condicional existe fichero
+        if facultad_dict:
+            return get_obj_as_response(
+                    facultad_dict,
+                    200) #recibidor del comando
+
+        #opcional fichero no existe
+        return get_obj_as_response(
+            __class__._getSubRespuestas(
+                ['Respuesta vacia','Fichero inexistente']),
+                406) #recibidor por si error del comando
+
+    @staticmethod
+    def _getFacultadesHorarios() -> Response:
+        """ Metodo de clase: Obtener datos de facultades
+
         Metodo que retorna la informacion de las materias por
         facultad.
         """
         ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
-                __class__._getCabecera().json + '-facultades.json'
+                __class__._getCabecera().json + '-cursos_facultades.json'
         facultad_dict = get_JSON_as_obj(ruta_archivo)
 
         #condicional existe fichero
@@ -317,6 +353,29 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
         #condicional existe fichero
         if proyecto_dict:
+            return get_obj_as_response(
+                    proyecto_dict,
+                    200) #recibidor del comando
+
+        #opcional fichero no existe
+        return get_obj_as_response(
+            __class__._getSubRespuestas(
+                ['Respuesta vacia','Fichero inexistente']),
+                406) #recibidor por si error del comando
+
+    @staticmethod
+    def _getProyectosHorarios() -> Response:
+        """ Metodo de clase: Obtener datos de proyectos
+
+        Metodo que retorna la informacion de las materias por
+        proyecto curricular.
+        """
+        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+                __class__._getCabecera().json + '-cursos_proyectos.json'
+        proyecto_dict = get_JSON_as_obj(ruta_archivo)
+
+        #condicional existe fichero
+        if proyecto_dict:
             proyecto_list = [{"nombre": n, "par_grupos": pg}
                     for n,pg in proyecto_dict.items()]
             return get_obj_as_response(
@@ -337,7 +396,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         completos.
         """
         ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
-                __class__._getCabecera().json + '.json'
+                __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
         #condicional existe fichero
@@ -364,7 +423,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                 a buscar
         """
         ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
-                __class__._getCabecera().json + '.json'
+                __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
         #condicional no existe fichero
@@ -419,7 +478,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                 identificador del grupo a buscar
         """
         ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
-                __class__._getCabecera().json + '.json'
+                __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
         #condicional no existe fichero
@@ -558,4 +617,21 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
         return get_obj_as_response(
                 creadorHorario(nodos),
+                200) #recibidor del comando
+
+    @staticmethod
+    def _getAllowedActions() -> Response:
+        """
+        """
+        actions = ['ORGANIZAR',
+          #'EXPORTAR', #Si existe /universidad/<idU>/horarios/exportar/<tipo>
+        ]
+
+        if current_user.is_authenticated:
+            actions.extend(['REPORTAR'])
+            if current_user.usur_es_administrador:
+              actions.extend(['ACTUALIZAR'])
+
+        return get_obj_as_response(
+                actions,
                 200) #recibidor del comando

@@ -21,13 +21,16 @@ Recopila:
     Ruta Cabecera universidad
     Ruta Previsulizacion universidad
     Ruta Facultades universidad
+    Ruta Horarios Facultades universidad
     Ruta Proyectos universidad
+    Ruta Horarios Proyectos universidad
     Ruta Horarios universidad
     Ruta Horarios materia
     Ruta Horario materia
     Ruta Cargar archivo
     Ruta Actualizar horarios
     Ruta Utilizar AION
+    Ruta Acciones del Usuario
 """
 
 from . import AION_Blp
@@ -89,10 +92,26 @@ def univ_facultades(idU):
             request.url_rule.rule)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
 
+# configuracion de la ruta que devuelve las facultades de una universidad
+#  por su id /universidad/<idU>/facultades
+@AION_Blp.route('/universidad/<idU>/facultades/horarios')
+def univ_facultades_horarios(idU):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
+
 # configuracion de la ruta que devuelve los proyectos curriculares de una
 #  universidad por su id /universidad/<idU>/proyectos
 @AION_Blp.route('/universidad/<idU>/proyectos')
 def univ_proyectos(idU):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
+
+# configuracion de la ruta que devuelve los proyectos curriculares de una
+#  universidad por su id /universidad/<idU>/proyectos
+@AION_Blp.route('/universidad/<idU>/proyectos/horarios')
+def univ_proyectos_horarios(idU):
     try: return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 406)
@@ -161,4 +180,13 @@ def aion(idU):
         post = request.get_json()
         return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule, postJson = post)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
+
+# configuracion de la ruta que devuelve las acciones permitidas para el
+#  usuario actual /universidad/<idU>/acciones
+@AION_Blp.route('/universidad/<idU>/acciones',methods = ['POST'])
+@login_required
+def univ_accions(idU):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
