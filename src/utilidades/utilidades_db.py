@@ -115,3 +115,36 @@ def add_record(record: Entidad):
     except exc.SQLAlchemyError as SQL:
         raise exc.SQLAlchemyError(SQL) #exception catched and raise
     finally: session.close()
+
+def get_one_from_table_by_filters(
+        entity: Entidad, #an ORM class without engine-support
+        fields: list[Column], #a set of ORM-columns without engine-support
+        values: list[Any]
+        ) -> Entidad:
+    """ Function: Get one from table by a filters (adaptado)
+
+    Get a record from a specified table filtered by multiple
+    column-matches.
+
+    Parameters:
+        entity -- an ORM class
+        fields -- a set of ORM-columns
+        value -- a set of values to query
+
+    Return:
+        the matched record
+
+    Exceptions:
+        exc.SQLAlchemyError -- if the conection fail
+    """
+    try:
+        match = session.query(entity)
+
+        for field, value in zip(fields, values):
+            match = match.filter(field == value)
+
+        match = match.first() #query of a record
+    except exc.SQLAlchemyError as SQL:
+        raise exc.SQLAlchemyError(SQL) #exception catched and raise
+    finally: session.close()
+    return match

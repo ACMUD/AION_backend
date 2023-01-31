@@ -15,13 +15,17 @@ from ...config import config
 from ...entidades.horario.universidad import (
         UniversidadEntidad,
         UniversidadEsquema)
+from ...entidades.horario.personal import (
+        PersonalEntidad)
 
 from ...AION.AION import creadorHorario
 from ...modelos.universidades.universidad_distrital import\
         UniversidadDistritalFactoria
 
 from ...utilidades.utilidades_db import (
-        get_one_from_table_by_filter)
+        get_one_from_table_by_filter,
+        get_one_from_table_by_filters,
+        add_record)
 
 from ...utilidades.utilidades_JSON import get_JSON_as_obj
 from ...utilidades.utilidades_web import get_obj_as_response
@@ -138,7 +142,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                                 'Parametros incorrectos',
                                 'Respuesta invalida']),406)
 
-            #recibidor por si error
+            #recibidor del comando
             return self._getMateriaHorario(parametros)
 
         if evento == '/universidad/<idU>/cargar_archivo':
@@ -151,7 +155,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                                 'Parametros incorrectos',
                                 'Respuesta invalida']),406)
 
-            #recibidor por si error
+            #recibidor del comando
             return self._setHorarios(parametros)
 
         if evento == '/universidad/<idU>/horarios/actualizar/<tipo>':
@@ -164,7 +168,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                                 'Parametros incorrectos',
                                 'Respuesta invalida']),406)
 
-            #recibidor por si error
+            #recibidor del comando
             return self._updateHorarios(parametros)
 
         if evento == '/universidad/<idU>/AION':
@@ -177,11 +181,34 @@ class UniversidadDistritalControlador(UniversidadControlador):
                                 'Parametros incorrectos',
                                 'Respuesta invalida']),406)
 
-            #recibidor por si error
+            #recibidor del comando
             return self._useAION(parametros)
 
         if evento == '/universidad/<idU>/acciones':
             return self._getAllowedActions()
+
+        if evento == '/universidad/<idU>/personal':
+            return self._existPersonal()
+
+        if evento == '/universidad/<idU>/horarios/personal/actualizar':
+            #condicional detalles completos de la solicitud
+            if (type(parametros) != dict or
+                    'postJson' not in parametros or
+                    'filtros' not in parametros['postJson'] or
+                    type(parametros['postJson']['filtros']) != list or
+                    'selectos' not in parametros['postJson'] or
+                    type(parametros['postJson']['selectos']) != list):
+                #recibidor por si errores
+                return get_obj_as_response(
+                        self._getSubRespuestas([
+                                'Parametros incorrectos',
+                                'Respuesta invalida']),406)
+
+            #recibidor del comando
+            return self._updatePersonal(parametros)
+
+        if evento == '/universidad/<idU>/horarios/personal':
+            return self._getPersonal()
 
         #recibidor por si error del comando
         return get_obj_as_response(
@@ -230,7 +257,10 @@ class UniversidadDistritalControlador(UniversidadControlador):
             '/universidad/<idU>/cargar_archivo',
             '/universidad/<idU>/horarios/actualizar/<tipo>',
             '/universidad/<idU>/AION',
-            '/universidad/<idU>/acciones']
+            '/universidad/<idU>/acciones',
+            '/universidad/<idU>/personal',
+            '/universidad/<idU>/horarios/personal/actualizar',
+            '/universidad/<idU>/horarios/personal']
 
     @staticmethod
     def _getUniversidad() -> Response:
@@ -628,10 +658,130 @@ class UniversidadDistritalControlador(UniversidadControlador):
         ]
 
         if current_user.is_authenticated:
+
+            persnl_exst = __class__._existPersonal().json
+            if persnl_exst['existencia']:
+                actions.extend(['PERSONAL'])
+
             actions.extend(['REPORTAR'])
+
             if current_user.usur_es_administrador:
-              actions.extend(['ACTUALIZAR'])
+                actions.extend(['ACTUALIZAR'])
 
         return get_obj_as_response(
                 actions,
                 200) #recibidor del comando
+
+    @staticmethod
+    def _existPersonal() -> Response:
+        """
+        """
+        if current_user.is_authenticated:
+            ud = get_one_from_table_by_filter(
+                UniversidadEntidad,
+                UniversidadEntidad.diminu,
+                __class__.diminu)
+
+            persnl = get_one_from_table_by_filters(
+                PersonalEntidad,
+                [PersonalEntidad.usur_id, PersonalEntidad.univ_id],
+                [current_user.id,ud.id])
+
+            if persnl:
+                return get_obj_as_response(
+                    {'existencia': True,
+                    'filtros': len(persnl.persl_estd_filtr.split(';')),
+                    'selectos': len(persnl.persl_estd_selct.split(';')),
+                    'usuario': current_user.nombre_completo,
+                    'universidad': ud.univ_nombre},
+                    200) #recibidor del comando
+
+        return get_obj_as_response(
+            {'existencia': False},
+            200) #recibidor del comando
+
+    @staticmethod
+    def _updatePersonal(parametros: dict) -> Response:
+        """
+        """
+        # condicional si la forma del parametro filtros es la esperada
+        if (len(parametros['postJson']['filtros']) > 0 and
+            len(parametros['postJson']['filtros'][0]) == 2):
+
+            filtros = ';'.join(
+                f'{grupo[0]}:{grupo[1]}'
+                for grupo in parametros['postJson']['filtros'])
+        else:
+            filtros = ''
+
+        # condicional si la forma del parametro selectos es la esperada
+        if (len(parametros['postJson']['selectos']) > 0 and
+            len(parametros['postJson']['selectos'][0]) == 2):
+
+            selectos = ';'.join(
+                f'{grupo[0]}:{grupo[1]}'
+                for grupo in parametros['postJson']['selectos'])
+        else:
+            selectos = ''
+
+        ud = get_one_from_table_by_filter(
+            UniversidadEntidad,
+            UniversidadEntidad.diminu,
+            __class__.diminu)
+
+        persnl = get_one_from_table_by_filters(
+            PersonalEntidad,
+            [PersonalEntidad.usur_id, PersonalEntidad.univ_id],
+            [current_user.id, ud.id])
+
+        if persnl:
+            persnl.persl_estd_filtr = filtros
+            persnl.persl_estd_selct = selectos
+
+        else:
+            persnl = PersonalEntidad(
+                current_user.id,
+                ud.id,
+                filtros,
+                selectos)
+
+        add_record(persnl)
+
+        return get_obj_as_response(
+            {'Respuesta':
+            'Horario personal actualizado'},
+            200) #recibidor del comando
+
+    @staticmethod
+    def _getPersonal() -> Response:
+        """
+        """
+        ud = get_one_from_table_by_filter(
+            UniversidadEntidad,
+            UniversidadEntidad.diminu,
+            __class__.diminu)
+
+        persnl_entidad = get_one_from_table_by_filters(
+            PersonalEntidad,
+            [PersonalEntidad.usur_id, PersonalEntidad.univ_id],
+            [current_user.id, ud.id])
+
+        if not persnl_entidad:
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Respuesta vacia',
+                    'Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        persnl_dict = {
+            "filtros": [
+                grupo.split(":")
+                for grupo
+                in persnl_entidad.persl_estd_filtr.split(";")],
+            "selectos":[
+                grupo.split(":")
+                for grupo
+                in persnl_entidad.persl_estd_selct.split(";")]}
+
+        return get_obj_as_response(
+            persnl_dict,
+            200) #recibidor del comando

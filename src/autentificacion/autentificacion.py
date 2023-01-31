@@ -56,14 +56,12 @@ def cargar_desde_solicitud(peticion: request) -> UserMixin:
     #registra la cabecera en busqueda de la informacion de autorizacion
     autentificacion = peticion.headers.get('Authorization', '').split(' ')
 
-
     #extraer el simbolismo
     # condicional no hay simbolismo para extraer
     if len(autentificacion) != 2: simbolismo = ''
 
     # opcional hay simbolismo para extraer
     else: simbolismo = autentificacion[1]
-
 
     #condicional no se extrajo el simbolismo
     if not simbolismo:

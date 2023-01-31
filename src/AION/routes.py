@@ -31,6 +31,8 @@ Recopila:
     Ruta Actualizar horarios
     Ruta Utilizar AION
     Ruta Acciones del Usuario
+    Ruta Horario Personal existe
+    Ruta Actualizar horario personal
 """
 
 from . import AION_Blp
@@ -78,7 +80,7 @@ def univ_cabecera(idU):
 
 # configuracion de la ruta que devuelve una universidad como recurso
 #  por su id /universidad/preview/<idU>
-@AION_Blp.route('/universidad/<idU>/preview')
+@AION_Blp.route('/universidad/<idU>/preview',methods = ['POST','GET'])
 def univ_preview(idU):
     try: return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule)
@@ -187,6 +189,37 @@ def aion(idU):
 @AION_Blp.route('/universidad/<idU>/acciones',methods = ['POST'])
 @login_required
 def univ_accions(idU):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
+
+# configuracion de la ruta que devuelve si existe un horario personal
+#  para el usuario actual /universidad/<idU>/personal
+@AION_Blp.route('/universidad/<idU>/personal')
+@login_required
+def univ_exist_personal(idU):
+    try: return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
+
+# configuracion de la ruta que devuelve el horario personal para el
+#  usuario /universidad/<idU>/horarios/personal/actualizar
+@AION_Blp.route(
+    '/universidad/<idU>/horarios/personal/actualizar',
+    methods = ['POST'])
+@login_required
+def univ_update_personal(idU):
+    try:
+        post = request.get_json()
+        return selector_universidad(idU)().realizadorAcciones(
+            request.url_rule.rule, postJson = post)
+    except RuntimeError as rt: return get_obj_as_response(str(rt), 400)
+
+# configuracion de la ruta que devuelve si existe un horario personal
+#  para el usuario actual /universidad/<idU>/personal
+@AION_Blp.route('/universidad/<idU>/horarios/personal')
+@login_required
+def univ_personal(idU):
     try: return selector_universidad(idU)().realizadorAcciones(
             request.url_rule.rule)
     except RuntimeError as rt: return get_obj_as_response(str(rt), 400)

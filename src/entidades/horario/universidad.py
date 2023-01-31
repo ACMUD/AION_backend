@@ -14,7 +14,7 @@
 Entidad y Esquema de universidad.
 """
 
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 
 from ..entidad import Entidad
 from ...entidades import Base

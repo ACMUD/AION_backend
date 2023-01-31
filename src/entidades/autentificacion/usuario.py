@@ -17,7 +17,6 @@ Entidad y Esquema de usuario.
 from flask_login import UserMixin
 from sqlalchemy import (
         Column,
-        ForeignKey,
         Boolean,
         Integer,
         String,
@@ -105,6 +104,11 @@ class UsuarioEntidad(Entidad, Base, UserMixin):
     @property
     def id(self) -> int:
         return self.usur_id
+
+    # Metodo propiedad: Nombre completo
+    @property
+    def nombre_completo(self) -> int:
+        return f'{self.usur_nombres} {self.usur_apellidos}'
 
     # Metodo concreto: Obtener identificador
     #Metodo sobreescrito de la clase padre UserMixin para las
