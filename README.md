@@ -120,7 +120,7 @@ El Capitulo Estudiantil de la *Association for Computing Machine ([ACM](https://
 
 ### [Proyecto original (Kairos)](https://www.facebook.com/KairosUN)
 
-<img align="right" width="80" height="80" src="https://scontent.fbog16-2.fna.fbcdn.net/v/t1.6435-9/162401707_194505602474770_3611468024973357193_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=WdM83nm8n3gAX9-ND3M&_nc_ht=scontent.fbog16-2.fna&oh=00_AfDXNFiChKhogfN5M3oSa-arKq_XQOiXeKa856IfkscNVQ&oe=63CDDEDD" alt="Icono del proyecto Kairos">
+<img align="right" width="80" height="80" src="/src/recursos/IconKairos1213x1280.jpg" alt="Icono del proyecto Kairos">
 
 El Proyecto Kairos de la Universidad Nacional de Colombia (actualmente desamparado) era utilizado por estudiantes de la Universidad Nacional de Colombia y la Universidad Distrital Francisco José de Caldas para organizar sus horarios. El proyecto paró sus actualizaciones en febrero de 2020. El Proyecto AION se desarrolló con la premisa de ser el Proyecto Kairos alojado en la red y con una estructura abierta para incluir más universidades.
 
