@@ -160,6 +160,7 @@ class UsuarioControlador(Controlador):
                         UsuarioEntidad,
                         UsuarioEntidad.usur_apodo,
                         parametros['apodo'])
+                return usr
 
             except exc.SQLAlchemyError as SQL:
                 print(SQL) #excepcion capturada y depurada
@@ -171,6 +172,7 @@ class UsuarioControlador(Controlador):
                         UsuarioEntidad,
                         UsuarioEntidad.usur_correo,
                         parametros['correo'])
+                return usr
 
             except exc.SQLAlchemyError as SQL:
                 print(SQL) #excepcion capturada y depurada
@@ -223,7 +225,7 @@ class UsuarioControlador(Controlador):
         #trata de almacenar el usuario
         try: usr.crear_usuario()
 
-        except SQLAlchemyError as SQL:
+        except exc.SQLAlchemyError as SQL:
             print(SQL) #excepcion capturada y depurada
             return get_obj_as_response(
                     __class__._getSubRespuestas([

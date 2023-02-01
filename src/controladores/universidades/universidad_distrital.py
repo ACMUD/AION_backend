@@ -688,13 +688,15 @@ class UniversidadDistritalControlador(UniversidadControlador):
                 [current_user.id,ud.id])
 
             if persnl:
-                return get_obj_as_response(
-                    {'existencia': True,
-                    'filtros': len(persnl.persl_estd_filtr.split(';')),
-                    'selectos': len(persnl.persl_estd_selct.split(';')),
-                    'usuario': current_user.nombre_completo,
-                    'universidad': ud.univ_nombre},
-                    200) #recibidor del comando
+                try:
+                    return get_obj_as_response(
+                        {'existencia': True,
+                        'filtros': len(persnl.persl_estd_filtr.split(';')),
+                        'selectos': len(persnl.persl_estd_selct.split(';')),
+                        'usuario': current_user.nombre_completo,
+                        'universidad': ud.univ_nombre},
+                        200) #recibidor del comando
+                except: pass
 
         return get_obj_as_response(
             {'existencia': False},
@@ -772,15 +774,18 @@ class UniversidadDistritalControlador(UniversidadControlador):
                     'Respuesta invalida']),
                     406) #recibidor por si error del comando
 
-        persnl_dict = {
-            "filtros": [
-                grupo.split(":")
-                for grupo
-                in persnl_entidad.persl_estd_filtr.split(";")],
-            "selectos":[
-                grupo.split(":")
-                for grupo
-                in persnl_entidad.persl_estd_selct.split(";")]}
+        try:
+          persnl_dict = {
+              "filtros": [
+                  grupo.split(":")
+                  for grupo
+                  in persnl_entidad.persl_estd_filtr.split(";")],
+              "selectos":[
+                  grupo.split(":")
+                  for grupo
+                  in persnl_entidad.persl_estd_selct.split(";")]}
+
+        except: persnl_dict = {"filtros": [],"selectos":[]}
 
         return get_obj_as_response(
             persnl_dict,
