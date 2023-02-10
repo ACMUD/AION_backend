@@ -2,5 +2,7 @@
   "clave_secreta": "claveseccreta410N84ck3nd",
   "depurado": true,
   "iteraciones": 4,
-  "duracion_simbolismo": {"minutes":6}
+  "duracion_simbolismo": {"minutes":6},
+  "servidor": "127.0.0.1",
+  "puerto": "5000"
 }

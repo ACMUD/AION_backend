@@ -25,6 +25,7 @@ flask-httpauth = "*"
 pdfplumber = "*"
 flask-bcrypt = "*"
 pyjwt = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

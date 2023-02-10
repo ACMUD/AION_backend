@@ -31,7 +31,7 @@ from ..config import db
 
 # motor, sesion y base
 engine = create_engine(
-    '%(motor)s://%(usuario)s:%(clave)s@%(host)s:%(puerto)d/%(nombre_bd)s' \
+    '%(motor)s://%(usuario)s:%(clave)s@%(host)s:%(puerto)s/%(nombre_bd)s' \
     % db.constructor_uri())
 Session = sessionmaker(bind = engine)
 Base = declarative_base()

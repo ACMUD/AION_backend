@@ -1,0 +1,8 @@
+{
+  "host": "$DB_HOST",
+  "puerto": "$DB_PORT",
+  "nombre_bd": "$DB_NAME",
+  "usuario": "$DB_USER",
+  "clave": "$DB_PASS",
+  "motor": "$DB_ENGINE"
+}

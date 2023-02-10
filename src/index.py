@@ -29,8 +29,8 @@ Recopila:
 from . import crear_app
 
 #inicializacion de la aplicación
-#app = crear_app(entorno = "DES")
-app = crear_app()
+app = crear_app(entorno = "DES")
+#app = crear_app()
 
 
 ##Registro de BluePrints
@@ -87,4 +87,8 @@ def icono(): return url_for('static', filename='favicon.ico'), 200
 @app.route('/')
 def index(): return redirect(url_for('trazabilidad.about'))
 
-if __name__ == '__main__': app.run()
+def main():
+    from src.config import config
+    app.run(host=config["servidor"], port = config["puerto"])
+
+if __name__ == '__main__': main()

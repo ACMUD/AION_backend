@@ -11,7 +11,7 @@
 /*.txt
 /src/const.py
 /src/config/config_prd.json
-/src/config/db.json
+/src/config/db**.json
 /src/pruebas/
 /src/archivos/al_cargar/submition[A-Z].pdf
 
@@ -20,3 +20,5 @@
 
 # Excepciones
 !/requirements.txt
+!/src/config/db_des.json
+!/src/config/db_prd.json

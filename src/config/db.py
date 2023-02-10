@@ -20,8 +20,10 @@ Recopila:
 """
 
 import json, os
+from src.config import config
 
-ruta = os.path.dirname(os.path.abspath(__file__)) + "\\db.json"
+ruta = os.path.dirname(os.path.abspath(__file__)) + \
+    f'/db_{config["entorno"].lower()}.json'
 
 def constructor_uri() -> dict:
     """ Funcion: Construccion URI
@@ -47,9 +49,16 @@ def constructor_uri() -> dict:
             if credencial not in db_config:
                 db_config[credencial] = ""
                 with open(ruta, "w") as ff: json.dump(db_config, ff)
+            elif db_config[credencial].startswith('$'):
+                db_config[credencial] = os.getenv(db_config[credencial][1:])
 
         if "puerto" not in db_config:
             db_config["puerto"] = 0
             with open(ruta, "w") as ff: json.dump(db_config, ff)
+        elif (type(db_config["puerto"]) == str and
+                db_config["puerto"].startswith('$')):
+            db_config["puerto"] = os.getenv(db_config["puerto"][1:])
+        elif type(db_config["puerto"]) == int:
+            db_config["puerto"] = str(db_config["puerto"])
 
         return db_config

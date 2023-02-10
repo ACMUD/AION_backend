@@ -42,9 +42,27 @@ def init_config(forzar_entorno: str = "PRD"):
             configuracion) -- Si nunca se hallo un entorno valido
             a partir del solicitado
     """
+    def update_config(cargador: dict):
+        """ Funcion encapsulada: Actualizar configuracion
+
+        Funcion que actualiza la configuracion llamable en base a un
+        diccionario cargador. Si alguno de los elementos es una
+        variable de entorno, llama la variable.
+
+        Parametros:
+            cargador (dict) -- diccionario con los valores para
+                agregar a la configuracion
+        """
+        for l, e in cargador.items(): #llaves y elementos del cargador
+
+          #condicional si el elemento a configurar es una variable de entorno
+          if type(e) == str and e.startswith('$'): config[l] = os.getenv(e[1:])
+
+          else: config[l] = e
+
     # Funcion: Configurar segun archivo
     def init_config_ruta(ruta_config: str):
-        with open(ruta_config) as f: config.update(json.load(f))
+        with open(ruta_config) as f: update_config(json.load(f))
 
     #ruta del JSON condicional al entorno elegido
     ruta_final = ruta + f'\\config_{forzar_entorno.lower()}.json'
@@ -75,4 +93,5 @@ def init_config(forzar_entorno: str = "PRD"):
     config["entorno"] = forzar_entorno
     config["nombre_entorno"] = {
             "DES": "desarrollo",
-            "PRD":"produccion"}[forzar_entorno]
+            "PRD":"produccion"
+        }[forzar_entorno]
