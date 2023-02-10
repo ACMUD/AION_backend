@@ -89,7 +89,7 @@ def init_config(forzar_entorno: str = "PRD"):
                 "configuracion")
 
     #configuraciones independientes del entorno
-    config["directorio_carga"] = ruta + r'\..\archivos\al_cargar'
+    config["directorio_carga"] = ruta + '/../archivos/al_cargar'
     config["entorno"] = forzar_entorno
     config["nombre_entorno"] = {
             "DES": "desarrollo",

@@ -65,7 +65,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
             }
 
     diminu = 'ud' #diminutivo
-    directorio = config["directorio_carga"] + r'\..\ud' #directorio especifico
+    directorio = config["directorio_carga"] + r'/../ud' #directorio especifico
 
     def realizadorAcciones(
             self,
@@ -299,7 +299,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         universidad que se utilizaran.
         """
         try:
-            with open(__class__.directorio + r'\cabecera') as archivo:
+            with open(__class__.directorio + '/cabecera') as archivo:
                 cabecera = archivo.read() #lectura de la cabecera
                 return get_obj_as_response(cabecera,200) #recibidor del comando
 
@@ -329,7 +329,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
         Metodo que retorna la informacion de las facultades.
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-facultades.json'
         facultad_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -352,7 +352,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         Metodo que retorna la informacion de las materias por
         facultad.
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-cursos_facultades.json'
         facultad_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -377,7 +377,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         Metodo que retorna la informacion de las materias por
         proyecto curricular.
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-proyectos.json'
         proyecto_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -400,7 +400,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         Metodo que retorna la informacion de las materias por
         proyecto curricular.
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-cursos_proyectos.json'
         proyecto_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -425,7 +425,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         Metodo que retorna la informacion de los horarios
         completos.
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -452,7 +452,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                 `codMat`, que corresponde al codigo de la materia
                 a buscar
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -507,7 +507,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
                 a buscar y la llave `idGrupo`, que corresponde al
                 identificador del grupo a buscar
         """
-        ruta_archivo = __class__.directorio + '\\' + __class__.diminu +\
+        ruta_archivo = __class__.directorio + '/' + __class__.diminu +\
                 __class__._getCabecera().json + '-cursos.json'
         horario_dict = get_JSON_as_obj(ruta_archivo)
 
@@ -579,7 +579,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
 
         #carga el archivo
         archivo = f'submission.{extension}'
-        parametros['postFile'].save(__class__.directorio + '\\' + archivo)
+        parametros['postFile'].save(__class__.directorio + '/' + archivo)
 
         return get_obj_as_response(
                 {'Respuesta': 'Archivo cargado',
