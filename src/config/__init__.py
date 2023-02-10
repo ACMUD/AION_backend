@@ -65,7 +65,7 @@ def init_config(forzar_entorno: str = "PRD"):
         with open(ruta_config) as f: update_config(json.load(f))
 
     #ruta del JSON condicional al entorno elegido
-    ruta_final = ruta + f'\\config_{forzar_entorno.lower()}.json'
+    ruta_final = ruta + f'/config_{forzar_entorno.lower()}.json'
 
     #cambio condicional del entorno
     if forzar_entorno == "PRD": #entorno de produccion
