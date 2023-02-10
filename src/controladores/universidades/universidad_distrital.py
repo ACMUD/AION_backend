@@ -65,7 +65,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
             }
 
     diminu = 'ud' #diminutivo
-    directorio = config["directorio_carga"] + r'/../ud' #directorio especifico
+    directorio = config["directorio_carga"] + '/../ud' #directorio especifico
 
     def realizadorAcciones(
             self,
@@ -298,6 +298,7 @@ class UniversidadDistritalControlador(UniversidadControlador):
         Metodo que retorna el periodo actual de los datos de la
         universidad que se utilizaran.
         """
+        print(__class__.directorio, '/cabecera')
         try:
             with open(__class__.directorio + '/cabecera') as archivo:
                 cabecera = archivo.read() #lectura de la cabecera

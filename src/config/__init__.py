@@ -95,3 +95,4 @@ def init_config(forzar_entorno: str = "PRD"):
             "DES": "desarrollo",
             "PRD":"produccion"
         }[forzar_entorno]
+    print(config)
