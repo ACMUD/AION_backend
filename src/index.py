@@ -89,6 +89,7 @@ def index(): return redirect(url_for('trazabilidad.about'))
 
 def main():
     from src.config import config
+    print(config["servidor"], config["puerto"])
     app.run(host=config["servidor"], port = config["puerto"])
 
 if __name__ == '__main__': main()
