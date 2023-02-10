@@ -10,7 +10,6 @@
 
 /*.txt
 /src/const.py
-/src/config/config_prd.json
 /src/config/db**.json
 /src/pruebas/
 /src/archivos/al_cargar/submition[A-Z].pdf

@@ -1,0 +1,8 @@
+{
+  "clave_secreta": "$CLAVE",
+  "depurado": false,
+  "iteraciones": 13,
+  "duracion_simbolismo": {"minutes":30},
+  "servidor": "$SERVIDOR",
+  "puerto": "$PORT"
+}
