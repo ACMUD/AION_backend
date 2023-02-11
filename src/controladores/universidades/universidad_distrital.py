@@ -29,6 +29,7 @@ from ...utilidades.utilidades_db import (
 
 from ...utilidades.utilidades_JSON import get_JSON_as_obj
 from ...utilidades.utilidades_web import get_obj_as_response
+from ...utilidades.utilidades_os import corrifying_path
 
 from flask import jsonify, make_response
 from flask.wrappers import Response
@@ -65,7 +66,9 @@ class UniversidadDistritalControlador(UniversidadControlador):
             }
 
     diminu = 'ud' #diminutivo
-    directorio = config["directorio_carga"] + '/../ud' #directorio especifico
+    directorio = corrifying_path(
+        config["directorio_carga"] +
+        '/../ud') #directorio especifico
 
     def realizadorAcciones(
             self,

@@ -88,8 +88,11 @@ def init_config(forzar_entorno: str = "PRD"):
         raise RuntimeError("Ningun entorno valido encontrado para la " +
                 "configuracion")
 
+    from ..utilidades.utilidades_os import corrifying_path
+
     #configuraciones independientes del entorno
-    config["directorio_carga"] = ruta + '/../archivos/al_cargar'
+    config["directorio_carga"] = corrifying_path(
+            ruta + '/../archivos/al_cargar')
     config["entorno"] = forzar_entorno
     config["nombre_entorno"] = {
             "DES": "desarrollo",

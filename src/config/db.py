@@ -24,7 +24,6 @@ from src.config import config
 
 ruta = os.path.dirname(os.path.abspath(__file__)) + \
     f'/db_{config["entorno"].lower()}.json'
-print(ruta)
 
 def constructor_uri() -> dict:
     """ Funcion: Construccion URI
