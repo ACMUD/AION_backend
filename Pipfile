@@ -20,12 +20,11 @@ packaging = "*"
 psycopg2-binary = "*"
 requests = "*"
 flask-login = "*"
-jwt = "*"
 flask-httpauth = "*"
 pdfplumber = "*"
 flask-bcrypt = "*"
-pyjwt = "*"
 python-dotenv = "*"
+pyjwt = "*"
 
 [dev-packages]
 

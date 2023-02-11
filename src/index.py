@@ -29,8 +29,8 @@ Recopila:
 from . import crear_app
 
 #inicializacion de la aplicación
-#app = crear_app(entorno = "DES")
-app = crear_app()
+app = crear_app(entorno = "DES")
+#app = crear_app()
 
 
 ##Registro de BluePrints
