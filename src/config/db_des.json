@@ -3,6 +3,6 @@
   "puerto": 5432,
   "nombre_bd": "AION",
   "usuario": "postgres",
-  "clave": "psql203",
+  "clave": "root",
   "motor": "postgresql"
 }

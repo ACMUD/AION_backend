@@ -40,7 +40,7 @@ from flask_cors import CORS
 
 from .config import config, init_config
 
-def crear_app(entorno: str = "PRD") -> Flask:
+def crear_app() -> Flask:
     """ Funcion: Fabrica de aplicativo
 
     Funcion que genera una aplicacion web y la configura
@@ -58,7 +58,7 @@ def crear_app(entorno: str = "PRD") -> Flask:
             instance_relative_config=True,
             static_folder='recursos')
 
-    init_config(forzar_entorno = entorno)
+    init_config()
 
     #configuracion de la aplicación
     app.config['BASE_DIR'] = os.path.dirname(os.path.abspath(__file__))

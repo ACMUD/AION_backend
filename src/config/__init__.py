@@ -24,8 +24,10 @@ import json, os
 config = {} #configuracion llamable
 
 ruta = os.path.dirname(os.path.abspath(__file__))
+entorno = "DES"
+# entorno = "PRD"
 
-def init_config(forzar_entorno: str = "PRD"):
+def init_config(forzar_entorno: str = entorno):
     """ Funcion encapsuladora: Inicializacion de la configuracion
 
     Funcion que actualiza el diccionario de configuraciones segun

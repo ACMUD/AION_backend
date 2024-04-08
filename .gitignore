@@ -13,11 +13,11 @@
 /src/config/db**.json
 /src/pruebas/
 /src/archivos/al_cargar/submition[A-Z].pdf
+src/config/db_des.json
 
 #  basura autogenerada
 **/__pycache__/
 
 # Excepciones
 !/requirements.txt
-!/src/config/db_des.json
-!/src/config/db_prd.json
+
