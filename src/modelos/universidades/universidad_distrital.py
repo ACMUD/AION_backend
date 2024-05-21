@@ -19,6 +19,7 @@ Caldas.
 from .almacenador_JSON import AlmacenadorJSON
 from ...config import config
 from ...utilidades.utilidades_JSON import update_dict, update_json_file
+from ...utilidades.utilidades_os import corrifying_path
 
 class AlmacenadorJSONUD(AlmacenadorJSON):
     """ Clase: Almacenador del JSON Universidad Distrital
@@ -28,7 +29,10 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
     que representa un almacenador exclusivo para la estructura de
     JSON de la Universidad Distrital Francisco Jose de Caldas.
     """
-    directorio = config["directorio_carga"] + r'\..\ud'
+    directorio = corrifying_path(
+      config["directorio_carga"] +
+      r'\..\ud'
+    )
 
     # Método dunder: Constructor Almacenador del JSON Universidad
     #    Distrital
