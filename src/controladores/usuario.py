@@ -299,7 +299,7 @@ class UsuarioControlador(Controlador):
                         'Respuesta vacia']),
                     412)
 
-        except (exc.SQLAlchemyError,Exception) as SQLe:
+        except (exc.SQLAlchemyError, Exception) as SQLe:
             print(SQLe) #excepcion capturada y depurada
             return get_obj_as_response(
                     __class__._getSubRespuestas([

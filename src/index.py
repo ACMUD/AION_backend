@@ -79,7 +79,7 @@ from flask import redirect, url_for, jsonify
 
 # Ruta: Icono por defecto
 @app.route('/favicon.ico')
-def icono(): return url_for('static', filename='favicon.ico'), 200
+def icono(): return app.send_static_file('favicon.ico'), 200
 
 # Ruta: Principal
 #configuracion de la ruta básica / y /home

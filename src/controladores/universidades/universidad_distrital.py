@@ -61,6 +61,9 @@ class UniversidadDistritalControlador(UniversidadControlador):
             'Fichero utilizado para la solicitud es inexistente o no pudo' +
                 'ser alcanzado',
 
+            "Error de minado": # Fallo si el minero no es capaz de minar
+            'El minado para la solicitud fue incapaz de realizar el minado',
+
             "Respuesta ajena": # Fallo si no hay respuesta programada
             'Error de programacion en las respuestas'
             }
@@ -612,6 +615,13 @@ class UniversidadDistritalControlador(UniversidadControlador):
         except FileNotFoundError:
             return get_obj_as_response(__class__._getSubRespuestas(
                     ['Fichero inexistente','Respuesta invalida']),
+                    406) #recibidor por si error del comando
+
+        #opcional el minero examina que cada horario sea agregado
+        ##si esto no se acierta se captura la excepcion
+        except AssertionError:
+            return get_obj_as_response(__class__._getSubRespuestas(
+                    ['Error de minado','Respuesta invalida']),
                     406) #recibidor por si error del comando
 
         return get_obj_as_response(

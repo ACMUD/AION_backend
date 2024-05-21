@@ -24,7 +24,11 @@ Referencia:
 """
 
 from .universidad_distrital import CreadorJSONUD
-from .creadores_JSON.creadores_UD import *
+from .creadores_JSON.creadores_UD import (
+  CreadorJSONUDByPDF,
+  CreadorJSONUDByPDF2Extractor,
+  CreadorJSONUDByXML,
+)
 
 def selector_creador_UD(origen: str) -> CreadorJSONUD:
     """ Funcion: Selector creador de JSON UD
@@ -58,7 +62,8 @@ def selector_creador_UD(origen: str) -> CreadorJSONUD:
     XML = 'xml'
 
     #condicional de factorias segun el selector
-    if origen.lower() == PDF: return CreadorJSONUDByPDF
+    #if origen.lower() == PDF: return CreadorJSONUDByPDF
+    if origen.lower() == PDF: return CreadorJSONUDByPDF2Extractor
     if origen.lower() == XML: return CreadorJSONUDByXML
     raise RuntimeError("El selector seleccionado no corresponde con " +
         "ningun creador de JSON valido")

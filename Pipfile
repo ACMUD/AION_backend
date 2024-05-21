@@ -25,6 +25,8 @@ pdfplumber = "*"
 flask-bcrypt = "*"
 python-dotenv = "*"
 pyjwt = "*"
+pymupdf = "*"
+pypdf = "*"
 
 [dev-packages]
 
