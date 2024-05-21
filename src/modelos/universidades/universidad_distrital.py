@@ -31,7 +31,7 @@ class AlmacenadorJSONUD(AlmacenadorJSON):
     """
     directorio = corrifying_path(
       config["directorio_carga"] +
-      r'\..\ud'
+      '/../ud'
     )
 
     # Método dunder: Constructor Almacenador del JSON Universidad
