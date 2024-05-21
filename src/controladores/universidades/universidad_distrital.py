@@ -69,9 +69,9 @@ class UniversidadDistritalControlador(UniversidadControlador):
             }
 
     diminu = 'ud' #diminutivo
-    directorio = corrifying_path(
-        config["directorio_carga"] +
-        '/../ud') #directorio especifico
+    #directorio = corrifying_path(
+        #'/../ud') #directorio especifico
+    directorio = config["directorio_carga"] + r'\..\ud' #directorio especifico
 
     def realizadorAcciones(
             self,
