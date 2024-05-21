@@ -33,6 +33,7 @@ Recopila:
 
 from ..universidad_distrital import CreadorJSONUD, AlmacenadorJSONUD
 from ....config import config
+from ...utilidades.utilidades_os import corrifying_path
 
 from enum import Enum
 from difflib import SequenceMatcher
@@ -598,7 +599,10 @@ class CreadorJSONUDByPDF2Extractor(CreadorJSONUD):
 
     self.almacenador.inicializar()
 
-    PDF_FILE = config["directorio_carga"] + r'\..\ud\submission.pdf'
+    PDF_FILE = corrifying_path(
+      config["directorio_carga"] +
+      '/../ud/submission.pdf'
+    )
 
     #trata de alcanzar el fichero para actualizar los horarios
     try:
