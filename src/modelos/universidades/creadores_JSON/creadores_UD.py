@@ -33,7 +33,7 @@ Recopila:
 
 from ..universidad_distrital import CreadorJSONUD, AlmacenadorJSONUD
 from ....config import config
-from ...utilidades.utilidades_os import corrifying_path
+from ....utilidades.utilidades_os import corrifying_path
 
 from enum import Enum
 from difflib import SequenceMatcher
