@@ -29,7 +29,6 @@ Recopila:
 from . import crear_app
 
 #inicializacion de la aplicación
-#app = crear_app(entorno = "DES")
 app = crear_app()
 
 
@@ -65,6 +64,8 @@ def create_tables():
     Genera todos los metadatos del esquema.
     """
     Base.metadata.create_all(engine)
+    from .main import init_us as Main
+    Main()
 
 
 ##Configuracion de rutas principales del indice
